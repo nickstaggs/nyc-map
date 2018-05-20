@@ -1,0 +1,38 @@
+<html>
+    <head>
+				<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+				<script src="http://d3js.org/topojson.v1.min.js"></script>
+        <style>
+        </style>
+    </head>
+    <body>
+
+        <script>
+
+            //Width and height
+            var w = window.innerWidth;
+            var h = window.innerHeight;
+
+
+            //Define path generator
+            var path = d3.geo.path();
+
+            //Create SVG element
+            var svg = d3.select("body").append("svg").attr({width:w, height: h});
+
+            //Load in GeoJSON data
+            d3.json("NycTaxiZones.json", function(json) {
+
+                //Bind data and create one path per GeoJSON feature
+                svg.selectAll("path")
+                   .data(json.features)
+                   .enter()
+                   .append("path")
+                   .attr("d", path)
+                   .attr("fill","#666666");
+
+            });
+
+        </script>
+    </body>
+</html>
