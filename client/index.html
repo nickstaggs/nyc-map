@@ -3,6 +3,12 @@
     	<script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.0/d3.min.js' charset='utf-8'></script>
     	<script src="http://d3js.org/topojson.v1.min.js"></script>
         <style>
+          svg {
+            fill-opacity: 0;
+          }
+          svg path {
+            stroke: black;
+          }
         </style>
     </head>
     <body>
@@ -10,26 +16,41 @@
         <script>
 
             //Width and height
-            var w = 3000;
-            var h = 1250;
-
+            var w = 1000;
+            var h = 600;
 
             //Define path generator
-            var path = d3.geo.path();
+            var projection = d3.geo.albers()
+                                  .center([1.5,40.7])
+                                  .rotate([75.527,0])
+                                  .parallels([41,44])
+                                  .translate([w/2,h/2])
+                                  .scale(79000);
+
+            //Define path generator
+            var path = d3.geo.path()
+                             .projection(projection);
 
             //Create SVG element
             var svg = d3.select("body").append("svg").attr({width:w, height: h});
 
             //Load in GeoJSON data
-            d3.json("NycTaxiZones.json", function(json) {
+            d3.json("nyu_2451_36743-geojson.json", function(json) {
 
+                //var geojson = topojson.feature(json, json.objects.NycTaxiZones);
                 //Bind data and create one path per GeoJSON feature
                 svg.selectAll("path")
                    .data(json.features)
                    .enter()
                    .append("path")
                    .attr("d", path)
-                   .attr("fill","#666666");
+                   .attr("id", function(d) { return d.objectid; })
+                   .attr("zone", function(d) { return d.zone; })
+                   .attr("class", function(d) { return d.borough; });
+                   // .attr("stroke", "black")
+                   // .attr("stroke-width", "1px")
+                   // .attr("fill-opacity", 0);
+
 
             });
 
