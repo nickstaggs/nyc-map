@@ -4,13 +4,31 @@
     	<script src="http://d3js.org/topojson.v1.min.js"></script>
         <style>
           svg {
-            fill-opacity: 0;
+            fill-opacity: .25;
           }
           svg path {
             stroke: black;
           }
           path:hover {
               fill-opacity: 1;
+          }
+          .Manhattan {
+              fill: red;
+          }
+          .Brooklyn {
+              fill: blue;
+          }
+          .Queens {
+              fill: green;
+          }
+          .Bronx {
+              fill: yellow;
+          }
+          .Staten {
+              fill: orange;
+          }
+          .EWR {
+              fill: purple;
           }
         </style>
     </head>
@@ -51,7 +69,7 @@
                    .attr("d", path)
                    .attr("id", function(d) { return d.properties.locationid; })
                    .attr("zone", function(d) { return d.properties.zone; })
-                   .attr("borough", function(d) { return d.properties.borough; });
+                   .attr("class", function(d) { return d.properties.borough; });
                    // .attr("stroke", "black")
                    // .attr("stroke-width", "1px")
                    // .attr("fill-opacity", 0);
